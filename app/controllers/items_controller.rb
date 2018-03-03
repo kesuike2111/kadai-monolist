@@ -4,10 +4,10 @@ class ItemsController < ApplicationController
     
     @keyword=params[:keyword]
     if @keyword.present? #
-      results=RakutenWebService::IchibaItems.search({
+      results=RakutenWebService::Ichiba::Item.search({
         keyword: @keyword,
         imageFlag: 1,
-        hits :20,
+        hits: 20,
       })
       
       results.each do |result|
@@ -23,7 +23,7 @@ class ItemsController < ApplicationController
     code=result['itemCode']
     name=result['itemName']
     url=result['itemUrl']
-    image_url['mediumImageUrls'].first['imageUrl'].gsub('?_ex=128x128', '')
+    image_url=result['mediumImageUrls'].first['imageUrl'].gsub('?_ex=128x128', '')
     
     return {
       code: code,
